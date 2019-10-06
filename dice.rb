@@ -14,6 +14,10 @@ $base_frequency = {}
 
 $history = {}
 
+puts "window length: #{$window}"
+puts "clamping factor: #{$clamp_factor}"
+puts
+
 def generate_base_counts(dice, total)
   if dice == 0
     unless $base_frequency.has_key? total
@@ -213,16 +217,17 @@ def do_roll(probs)
 end
 
 def run_dice
+  puts "rolling #{$count}d#{$sides}"
   generate_base_distribution
-
+  puts "press enter to roll..."
   while true
-    probs = build_plan
-    display(probs)
-    puts "ready to roll"
     STDIN.gets
     puts "\n" * 30
-    roll = do_roll(probs)
+    roll = do_roll(build_plan)
+    display(build_plan)
+    puts
     puts "rolled #{roll}"
+    puts "press enter to roll..."
   end
 end
 
